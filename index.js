@@ -1,65 +1,39 @@
+#! /usr/bin/env node
 import inquirer from "inquirer";
-let todos = [];
-let condition = true;
-while (condition) {
-    let ans = await inquirer.prompt([
+let myBalance = 20000;
+let myPin = 321;
+let pinAnswer = await inquirer.prompt([
+    {
+        name: "pin",
+        message: "Enter your pin code",
+        type: "number",
+    },
+]);
+if (pinAnswer.pin === myPin) {
+    console.log("Correct pin code !!!");
+    let operationAns = await inquirer.prompt([
         {
-            name: "select",
+            name: "operation",
+            message: "please select option",
             type: "list",
-            message: "select an operation",
-            choices: ["Add", "update", "view", "delete", "Exit"],
+            choices: ["withdraw", "check balance"],
         },
     ]);
-    if (ans.select === "Add") {
-        let addTodo = await inquirer.prompt({
-            name: "todo",
-            type: "input",
-            message: "Add items in the list",
-            validate: function (input) {
-                if (input.trim() == "") {
-                    return "please enter a non-empty item";
-                }
-                return true;
+    if (operationAns.operation === "withdraw") {
+        let amountAns = await inquirer.prompt([
+            {
+                name: "amount",
+                message: "Enter your amount",
+                type: "number",
             },
-        });
-        if (addTodo.todo.trim() !== "") {
-            todos.push(addTodo.todo);
-            todos.forEach((todo) => console.log(todo));
-        }
+        ]);
+        myBalance -= amountAns.amount;
+        console.log("Your remaining balance is: " + myBalance);
     }
-    if (ans.select === "update") {
-        let updateTodo = await inquirer.prompt({
-            name: "todo",
-            type: "list",
-            message: "update items in the list",
-            choices: todos.map((item) => item),
-        });
-        let addTodo = await inquirer.prompt({
-            name: "todo",
-            type: "input",
-            message: "Add items in the list",
-        });
-        let newTodo = todos.filter((val) => val !== updateTodo.todo);
-        todos = [...newTodo, addTodo.todo];
-        todos.forEach((todo) => console.log(todo));
+    else if (operationAns.operation === "check balance") {
+        console.log("Your balance is: " + myBalance);
     }
-    if (ans.select === "view") {
-        console.log("***** TO_DO LIST *****");
-        todos.forEach((todo) => console.log(todo));
-    }
-    if (ans.select === "delete") {
-        let deleteTodo = await inquirer.prompt({
-            name: "todo",
-            type: "list",
-            message: "select item to delete",
-            choices: todos.map((item) => item),
-        });
-        let newTodo = todos.filter((val) => val !== deleteTodo.todo);
-        todos = [...newTodo];
-        todos.forEach((todo) => console.log(todo));
-    }
-    if (ans.select === "Exit") {
-        console.log("Exiting the program ...");
-        condition = false;
-    }
+}
+else {
+    console.log("Incorrect pin code");
 }

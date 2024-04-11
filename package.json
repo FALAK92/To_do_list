@@ -1,9 +1,10 @@
 {
-  "name": "f92nto_do_list",
+  "name": "f92n-atm",
   "version": "1.0.0",
-  "description": "To do app using inquirer,typescript and node",
+  "description": "",
   "main": "index.js",
   "type": "module",
+  "bin": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,10 +13,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
-    "@types/node": "^20.12.5"
+    "@types/node": "^20.12.2"
   },
   "dependencies": {
-    "chalk": "^5.3.0",
     "inquirer": "^9.2.17"
   }
 }
